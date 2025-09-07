@@ -3,8 +3,12 @@ package org.devanshu;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.util.Arrays;
 import java.util.List;
+
+import static java.lang.Class.forName;
 
 @Path("aliens")
 public class AlienResource {
@@ -41,27 +45,45 @@ public class AlienResource {
 //    }
 
     // Fetching data from the database => AlienRepository/AlienDAO
-    @GET
-    @Produces({MediaType.APPLICATION_JSON , MediaType.APPLICATION_XML})
-    public List<Alien> getAlien(){
-        System.out.println("Aliens Called");
-        return repo.getAliens();
-    }
+//    @GET
+//    @Produces({MediaType.APPLICATION_JSON , MediaType.APPLICATION_XML})
+//    public List<Alien> getAlien(){
+//        System.out.println("Aliens Called");
+//        return repo.getAliens();
+//    }
+//
+//    @GET
+//    @Path("alien/{id}")
+//    @Produces({MediaType.APPLICATION_XML , MediaType.APPLICATION_JSON})
+//    public Alien getAlien(@PathParam("id") int id){
+//        return repo.getAlien(id);
+//    }
+//
+//
+//    @POST
+//    @Path("alien")
+//    @Produces({MediaType.APPLICATION_XML , MediaType.APPLICATION_JSON})
+//    public Alien creteAlien(Alien a){
+//        System.out.println(a);
+//        repo.create(a);
+//        return a;
+//    }
 
-    @GET
-    @Path("alien/{id}")
-    @Produces({MediaType.APPLICATION_XML , MediaType.APPLICATION_JSON})
-    public Alien getAlien(@PathParam("id") int id){
-        return repo.getAlien(id);
-    }
 
-
-    @POST
+    @PUT
     @Path("alien")
-    @Produces({MediaType.APPLICATION_XML , MediaType.APPLICATION_JSON})
-    public Alien creteAlien(Alien a){
+    @Consumes({MediaType.APPLICATION_JSON , MediaType.APPLICATION_XML})
+    public Alien updateAlien(Alien a){
         System.out.println(a);
-        repo.create(a);
+        if (repo.getAlien(a.getId()).getId() == 0){
+            repo.create(a);
+        }else {
+            repo.update(a);
+        }
+
         return a;
     }
+
+
+
 }

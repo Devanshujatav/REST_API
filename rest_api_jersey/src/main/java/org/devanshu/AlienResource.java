@@ -84,6 +84,16 @@ public class AlienResource {
         return a;
     }
 
+    @DELETE
+    @Path("alien/{id}")
+    public Alien killAlien(@PathParam("id") int id){
+        Alien a = repo.getAlien(id);
+        if (a.getId() != 0){
+            repo.delete(id);
+        }
+        return a;
+    }
+
 
 
 }
